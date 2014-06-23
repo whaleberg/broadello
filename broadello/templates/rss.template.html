@@ -1,0 +1,68 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+
+<channel>
+
+<title>All About Everything</title>
+
+<link>http://www.example.com/podcasts/everything/index.html</link>
+
+<language>en-us</language>
+
+<copyright>&#x2117; &amp; &#xA9; 2005 John Doe &amp; Family</copyright>
+
+<itunes:subtitle>A show about everything</itunes:subtitle>
+
+<itunes:author>John Doe</itunes:author>
+
+<itunes:summary>All About Everything is a show about everything. Each week we dive into any subject known to man and talk about it as much as we can. Look for our podcast on the iOS Podcasts app or in the iTunes Store</itunes:summary>
+
+<description>All About Everything is a show about everything. Each week we dive into any subject known to man and talk about it as much as we can. Look for our podcast on the iOS Podcasts app or in the iTunes Store</description>
+
+<itunes:owner>
+
+<itunes:name>John Doe</itunes:name>
+
+<itunes:email>john.doe@example.com</itunes:email>
+
+</itunes:owner>
+
+<itunes:image href="http://example.com/podcasts/everything/AllAbout Everything.jpg" />
+
+<itunes:category text="Technology">
+
+<itunes:category text="Gadgets"/>
+
+</itunes:category>
+
+<itunes:category text="TV &amp; Film"/>
+
+{% for ep in episodes %}
+<item>
+
+<title>{{ ep.title }}</title>
+
+<itunes:author>{{ ep.author }}</itunes:author>
+
+<itunes:subtitle>{{ ep.title }}</itunes:subtitle>
+
+<itunes:summary>{{ ep.description }}</itunes:summary>
+
+<itunes:image href="http://example.com/podcasts/everything/AllAbout Everything/Episode1.jpg" />
+
+<enclosure url="{{ ep.path }}" length="{{ ep.length }}" type="audio/mpeg" />
+
+<guid>{{ ep.path }}</guid>
+
+<pubDate>{{ ep.date }}</pubDate>
+
+<itunes:duration>{{ ep.time }}</itunes:duration>
+
+</item>
+{% endfor %}
+
+</channel>
+
+</rss>
