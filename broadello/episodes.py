@@ -1,6 +1,18 @@
 # -*- coding: utf-8 -*- 
 episodes = [
     {
+	 "path": "ep_020.mp3",
+     "title": "Episode 20: Moose Kings of the World Cup",
+     "time": "21:00",
+     "description": """Louis shares stories from his vacation to Alaska, where he flew on a beaver. Hussein shares stories of his crushing loneliness, and realises that maybe he wasn't being catcalled that one time a woman yelled at him from a passing car."""
+    },
+    {
+	 "path": "bonus_003.mp3",
+     "title": "Bonus Episode 3",
+     "time": "10:08",
+     "description": """A discussion, snipped from Episode 19, of the Hobby Lobby ruling. Gaaaaaaah."""
+    },
+    {
 	 "path": "bonus_002.mp3",
      "title": "Bonus Episode 2",
      "time": "10:09",
