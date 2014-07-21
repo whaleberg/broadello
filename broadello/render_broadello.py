@@ -20,7 +20,8 @@ with open(path+"rss.xml", "w") as out:
 	for ep in eplist:
 		ep["url"] = url + ep["path"]
 		ep["size"] = os.path.getsize(path + ep["path"])
-		ep["date"] = email.Utils.formatdate(os.path.getctime(path + ep["path"]))
+		ctime = ep["fake_ctime"] if "fake_ctime" in ep else os.path.getctime(path + ep["path"])
+		ep["date"] = email.Utils.formatdate(ctime)
 		ep["description"] = BeautifulSoup(ep["description"]).get_text()
 
 	out.writelines( template.render( episodes=episodes.episodes))
@@ -39,7 +40,7 @@ def get_client():
 
 def tumbl_post(tumbl, ep):
 	template = env.get_template("tumblr.template.html")
-	t = os.path.getctime(path + ep["path"])
+	t = ep["fake_ctime"] if "fake_ctime" in ep else os.path.getctime(path + ep["path"])
 	ep["date"] = datetime.datetime.strftime(datetime.datetime.fromtimestamp(t), "%Y-%m-%d %H:%M:%S GMT")
 	ep["url"] = url + ep["path"]
 	tumbl.create_text(	"broadello",
