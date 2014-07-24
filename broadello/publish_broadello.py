@@ -8,13 +8,18 @@ import yaml
 import datetime
 from ftplib import FTP
 
+url="http://broadello.jellycast.com/pod/"
+path="/home/unix/hussein/broadello/ftp/"
+#url="http://broadinstitute.org/~hussein/broadello/"
+#path="/home/unix/hussein/public_html/broadello/"
+
 #transfer any episodes we're missing over to jellycast
 import jellycreds
 ftp = FTP("broadello.jellycast.com", jellycreds.user, jellycreds.password)
 ftp.cwd("pod")
 fnames = ftp.nlst()
 
-dirpath, dirnames, filenames = os.walk("/home/unix/hussein/broadello/ftp/").next()
+dirpath, dirnames, filenames = os.walk(path).next()
 for missing in [ f for f in filenames if f not in fnames ]:
 	with open( os.path.join(dirpath, missing), 'r' ) as missingfile:
 		ftp.storbinary(	"STOR " + missing, missingfile )
@@ -22,9 +27,6 @@ for missing in [ f for f in filenames if f not in fnames ]:
 #render things! 
 env = Environment(loader=FileSystemLoader('templates'))
 import episodes
-
-url="http://broadello.jellycast.com/pod/"
-path="/home/unix/hussein/public_html/broadello/"
 
 #rss
 with open(path+"rss.xml", "w") as out:
@@ -37,7 +39,7 @@ with open(path+"rss.xml", "w") as out:
 		ep["date"] = email.Utils.formatdate(ctime)
 		ep["description"] = BeautifulSoup(ep["description"]).get_text()
 
-	out.writelines( template.render( episodes=episodes.episodes))
+	out.writelines( template.render( episodes=eplist))
 
 #ftp the rss feed over too
 with open(path+"rss.xml", 'r') as rss:
