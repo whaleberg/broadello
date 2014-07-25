@@ -10,11 +10,10 @@ from ftplib import FTP
 
 url="http://broadello.jellycast.com/pod/"
 path="/home/unix/hussein/broadello/ftp/"
-#url="http://broadinstitute.org/~hussein/broadello/"
-#path="/home/unix/hussein/public_html/broadello/"
 
 #transfer any episodes we're missing over to jellycast
 import jellycreds
+print "Opening FTP to jellycast."
 ftp = FTP("broadello.jellycast.com", jellycreds.user, jellycreds.password)
 ftp.cwd("pod")
 fnames = ftp.nlst()
@@ -22,13 +21,20 @@ fnames = ftp.nlst()
 dirpath, dirnames, filenames = os.walk(path).next()
 for missing in [ f for f in filenames if f not in fnames ]:
 	with open( os.path.join(dirpath, missing), 'r' ) as missingfile:
+		print "FTPing " + missing + "..."
 		ftp.storbinary(	"STOR " + missing, missingfile )
 
+if len(missing) > 0:
+	print "Missing files updated."
+else:
+	print "Jellycast is already up-to-date."
+		
 #render things! 
 env = Environment(loader=FileSystemLoader('templates'))
 import episodes
 
 #rss
+print "Rendering rss.."
 with open(path+"rss.xml", "w") as out:
 	template = env.get_template("rss.template.html")
 	eplist = deepcopy(episodes.episodes)
@@ -42,9 +48,11 @@ with open(path+"rss.xml", "w") as out:
 	out.writelines( template.render( episodes=eplist))
 
 #ftp the rss feed over too
+print "FTPing rss..."
 with open(path+"rss.xml", 'r') as rss:
 	ftp.storlines("STOR rss.xml", rss )
 ftp.quit()
+print "...done."
 
 #construct a tumblr client	
 def get_client():
@@ -61,6 +69,7 @@ def get_client():
 
 #post a single episode to tumblr
 def tumbl_post(tumbl, ep):
+	print "Posting " + ep['title'] + " to tumblr..."
 	template = env.get_template("tumblr.template.html")
 	t = ep["fake_ctime"] if "fake_ctime" in ep else os.path.getctime(path + ep["path"])
 	ep["date"] = datetime.datetime.strftime(datetime.datetime.fromtimestamp(t), "%Y-%m-%d %H:%M:%S GMT")
