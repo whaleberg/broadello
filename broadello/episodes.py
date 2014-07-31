@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*- 
 episodes = [
     {
+     "path": "broadello_023.mp3",
+     "title": "Episode 23: RatFest 2013",
+     "time": "26:05",
+     "description": """Our guest this week has been known as King of the Dorks, but this episode we discover he's actually a modern Pied Piper of Hamelin. Except that instead of playing a flute he electrocutes the rats and teaches the children to swear. He also talks about how he once kicked Scarlett Johanssen and went to high school with a guy who wore a Star Wars pillow on his head. And Louis wants to know if it's okay to describe someone as "balls-deep in cats"."""
+    },{
      "path": "broadello_022.mp3",
      "title": "Episode 22: A Man of Discriminating Taste",
      "time": "21:50",
