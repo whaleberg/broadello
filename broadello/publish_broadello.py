@@ -19,6 +19,7 @@ ftp.cwd("pod")
 fnames = ftp.nlst()
 
 dirpath, dirnames, filenames = os.walk(path).next()
+missing = []
 for missing in [ f for f in filenames if f not in fnames ]:
 	with open( os.path.join(dirpath, missing), 'r' ) as missingfile:
 		print "FTPing " + missing + "..."
@@ -81,9 +82,20 @@ def tumbl_post(tumbl, ep):
 				format = "html",
 				body = template.render( ep = ep ) )
 
+def get_all_posts(tumbl):
+	posts = []
+	offset = 0
+	while True:
+		data = tumbl.posts('broadello', offset=offset)
+		posts.extend( data['posts'] )
+		if len(data['posts']) == 0:
+			break
+		offset += 20
+	return posts
+
 #delta between the titles we have in episodes.py and tumblr; upload any missing posts
 tumbl = get_client()
-titles = [x['title'] for x in tumbl.posts('broadello')['posts']]
+titles = [x['title'] for x in get_all_posts(tumbl)]
 eplist = reversed(deepcopy(episodes.episodes))
 for ep in eplist:
 	if ep["title"] not in titles:
