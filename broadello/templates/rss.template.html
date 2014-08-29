@@ -41,11 +41,13 @@
 
 <itunes:author>The Broadello</itunes:author>
 
-<itunes:subtitle>{{ ep.title }}</itunes:subtitle>
+<itunes:subtitle>{{ ep.description }}</itunes:subtitle>
 
 <itunes:image href="http://broadello.jellycast.com/pod/broadello.jpg" />
 
 <itunes:summary>{{ ep.description }}</itunes:summary>
+
+<description>{{ ep.description }}</description>
 
 <enclosure url="{{ ep.url }}" length="{{ ep.size }}" type="audio/mpeg" />
 
